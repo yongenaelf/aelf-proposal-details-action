@@ -61046,15 +61046,9 @@ const { deserializeLogs } = __nccwpck_require__(4966);
       .addDetails("proposalId", PROPOSAL_ID)
       .addDetails("isContractDeployed", isContractDeployed.toString())
       .addDetails("status", status)
-      .addLink("View proposal on AElf Explorer", link)
       .write();
 
     if (status === "released" && isContractDeployed === true) {
-      const link = `${EXPLORER_URL}/tx/${releasedTxId}`;
-      await core.summary
-        .addLink("View deployed contract transaction on AElf Explorer", link)
-        .write();
-
       const transaction = await aelf.chain.getTxResult(releasedTxId);
 
       const deserializeLogResult = await deserializeLogs(

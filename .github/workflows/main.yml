@@ -11,7 +11,7 @@ jobs:
       - name: Proposal Id
         uses: ./
         with:
-          transaction-id: c7b1240e827b5313f90516ab006bb09c53b80be346e99421b188ea27f95497b6
+          proposal-id: 081a9d333dce46449687565a9a0ee16faabf728e43412c8b00e5c6a7bc3fb201
 
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v4

@@ -1,8 +1,8 @@
-name: "AElf Deploy Proposal ID Action"
-description: "Fetches the proposal ID"
+name: "AElf Proposal Details Action"
+description: "Fetches the proposal details"
 inputs:
-  transaction-id:
-    description: "Transaction ID"
+  proposal-id:
+    description: "Proposal ID"
     required: true
   node-url:
     description: "AElf Blockchain node url"
@@ -13,8 +13,18 @@ inputs:
     required: true
     default: "https://explorer-test-side02.aelf.io"
 outputs:
-  deployment-proposal-id:
-    description: "Deployment proposal id."
+  create-tx-id:
+    description: "The transaction id of the create proposal transaction."
+  is-contract-deployed:
+    description: "Whether the contract is deployed"
+  proposal-type:
+    description: "Type of proposal."
+  proposer:
+    description: "AElf Address of the proposer."
+  released-tx-id:
+    description: "The transaction id of the release proposal transaction."
+  status:
+    description: "Status of the proposal."
 runs:
   using: "node20"
   main: "dist/index.js"

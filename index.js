@@ -10,15 +10,20 @@ const { deserializeLogs } = require("./deserialize-logs");
 
     const aelf = new AElf(new AElf.providers.HttpProvider(NODE_URL));
 
-    const transaction = await aelf.chain.getTxResult(PROPOSAL_ID);
-
     const link = `${EXPLORER_URL}/proposal/proposalsDetail/${PROPOSAL_ID}`;
     const api = `${EXPLORER_URL}/api/proposal/proposalInfo?proposalId=${PROPOSAL_ID}`;
 
     const res = await fetch(api);
     const { data } = await res.json();
 
-    const { createTxId, isContractDeployed, proposalType, proposer, releasedTxId, status } = data.proposal;
+    const {
+      createTxId,
+      isContractDeployed,
+      proposalType,
+      proposer,
+      releasedTxId,
+      status,
+    } = data.proposal;
 
     core.setOutput("create-tx-id", createTxId);
     core.setOutput("is-contract-deployed", isContractDeployed);
@@ -31,25 +36,32 @@ const { deserializeLogs } = require("./deserialize-logs");
       .addDetails("proposalId", PROPOSAL_ID)
       .addDetails("isContractDeployed", isContractDeployed.toString())
       .addDetails("status", status)
-      .addLink("View proposal on AElf Explorer", link).write();
+      .addLink("View proposal on AElf Explorer", link)
+      .write();
 
-    if (status === 'released' && isContractDeployed === true) {
+    if (status === "released" && isContractDeployed === true) {
       const link = `${EXPLORER_URL}/tx/${releasedTxId}`;
       await core.summary
-        .addLink("View deployed contract transaction on AElf Explorer", link).write();
+        .addLink("View deployed contract transaction on AElf Explorer", link)
+        .write();
 
       const transaction = await aelf.chain.getTxResult(releasedTxId);
 
-      const deserializeLogResult = await deserializeLogs(aelf, transaction.Logs);
+      const deserializeLogResult = await deserializeLogs(
+        aelf,
+        transaction.Logs
+      );
 
       const deployedLog = deserializeLogResult?.pop();
 
       if (deployedLog) {
         const { address } = deployedLog;
         const link = `${EXPLORER_URL}/address/${address}`;
+
         await core.summary
           .addDetails("Deployed Contract Address", address)
-          .addLink("View deployed contract on AElf Explorer", link).write();
+          .addLink("View deployed contract on AElf Explorer", link)
+          .write();
       }
     }
   } catch (error) {

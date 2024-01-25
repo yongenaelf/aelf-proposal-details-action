@@ -1,14 +1,14 @@
-# AElf Deploy Proposal ID javascript action
+# AElf Proposal Details javascript action
 
 [![semantic-release: angular](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 
-This GitHub Action fetches the proposal ID for a transaction ID of a `DeployUserSmartContract` transaction on the AElf blockchain.
+This GitHub Action fetches the proposal details for a proposal ID on the AElf blockchain.
 
 ## Inputs
 
-### `transaction-id`
+### `proposal-id`
 
-**Required** Transaction ID of `DeployUserSmartContract` transaction.
+**Required** Proposal ID.
 
 ### `node-url`
 
@@ -20,16 +20,36 @@ This GitHub Action fetches the proposal ID for a transaction ID of a `DeployUser
 
 ## Outputs
 
-### `deployment-proposal-id`
+### `create-tx-id`
 
-Deployment proposal id.
+The transaction id of the create proposal transaction.
+
+### `is-contract-deployed`
+
+Whether the contract is deployed.
+
+### `proposal-type`
+
+Type of proposal.
+
+### `proposer`
+
+AElf Address of the proposer.
+
+### `released-tx-id`
+
+The transaction id of the release proposal transaction.
+
+### `status`
+
+Status of the proposal, can be "pending", "expired", or "released".
 
 ## Example usage
 
 ```yaml
-uses: yongenaelf/aelf-deploy-proposal-id-action@v1.0.0
+uses: yongenaelf/aelf-proposal-details-action@v1.0.0
 with:
-  transaction-id: your-transaction-id
+  proposal-id: your-proposal-id
 ```
 
 ## For developers

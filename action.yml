@@ -1,0 +1,20 @@
+name: "AElf Deploy Proposal ID Action"
+description: "Fetches the proposal ID"
+inputs:
+  transaction-id:
+    description: "Transaction ID"
+    required: true
+  node-url:
+    description: "AElf Blockchain node url"
+    required: true
+    default: "https://tdvw-test-node.aelf.io"
+  explorer-url:
+    description: "AElf Explorer url"
+    required: true
+    default: "https://explorer-test-side02.aelf.io"
+outputs:
+  deployment-proposal-id:
+    description: "Deployment proposal id."
+runs:
+  using: "node20"
+  main: "dist/index.js"

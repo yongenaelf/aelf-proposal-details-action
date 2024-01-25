@@ -1,0 +1,19 @@
+name: "main"
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (GitHub)
+        uses: actions/checkout@v4
+
+      - name: Proposal Id
+        uses: ./
+        with:
+          transaction-id: c7b1240e827b5313f90516ab006bb09c53b80be346e99421b188ea27f95497b6
+
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

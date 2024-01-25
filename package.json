@@ -1,0 +1,23 @@
+{
+  "name": "aelf-deploy-proposal-id-action",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "build": "ncc build index.js --license licenses.txt",
+    "dev": "node --env-file=.env.development --watch index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@actions/core": "^1.10.1",
+    "aelf-sdk": "^3.4.4"
+  },
+  "release": {
+    "branches": [
+      "main"
+    ]
+  }
+}

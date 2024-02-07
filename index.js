@@ -17,7 +17,7 @@ let sleep = require("util").promisify(setTimeout);
       proposalStatus = "pending",
       retryCount = 0;
 
-    while (!data && proposalStatus === "pending" && retryCount < 20) {
+    while (proposalStatus === "pending" && retryCount < 20) {
       const res = await fetch(api);
       const {
         data: { proposal },
@@ -28,7 +28,7 @@ let sleep = require("util").promisify(setTimeout);
         proposalStatus = proposal.status;
       }
 
-      if (!data) {
+      if (proposalStatus === "pending") {
         retryCount++;
         await sleep(2000);
       }

@@ -1,6 +1,7 @@
 const core = require("@actions/core");
 const AElf = require("aelf-sdk");
 const { deserializeLogs } = require("./deserialize-logs");
+let sleep = require("util").promisify(setTimeout);
 
 (async () => {
   try {
@@ -10,11 +11,25 @@ const { deserializeLogs } = require("./deserialize-logs");
 
     const aelf = new AElf(new AElf.providers.HttpProvider(NODE_URL));
 
-    const link = `${EXPLORER_URL}/proposal/proposalsDetail/${PROPOSAL_ID}`;
     const api = `${EXPLORER_URL}/api/proposal/proposalInfo?proposalId=${PROPOSAL_ID}`;
 
-    const res = await fetch(api);
-    const { data } = await res.json();
+    let data,
+      retryCount = 0;
+
+    while (!data && retryCount < 10) {
+      const res = await fetch(api);
+      const { data: resData } = await res.json();
+      data = resData;
+
+      if (!resData || !resData.proposal) {
+        retryCount++;
+        await sleep(2000);
+      }
+    }
+
+    if (!data) {
+      throw new Error("Error fetching from", api);
+    }
 
     const {
       createTxId,

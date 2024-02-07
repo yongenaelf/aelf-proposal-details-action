@@ -61011,6 +61011,7 @@ var __webpack_exports__ = {};
 const core = __nccwpck_require__(3811);
 const AElf = __nccwpck_require__(5279);
 const { deserializeLogs } = __nccwpck_require__(4966);
+let sleep = (__nccwpck_require__(3837).promisify)(setTimeout);
 
 (async () => {
   try {
@@ -61020,11 +61021,25 @@ const { deserializeLogs } = __nccwpck_require__(4966);
 
     const aelf = new AElf(new AElf.providers.HttpProvider(NODE_URL));
 
-    const link = `${EXPLORER_URL}/proposal/proposalsDetail/${PROPOSAL_ID}`;
     const api = `${EXPLORER_URL}/api/proposal/proposalInfo?proposalId=${PROPOSAL_ID}`;
 
-    const res = await fetch(api);
-    const { data } = await res.json();
+    let data,
+      retryCount = 0;
+
+    while (!data && retryCount < 10) {
+      const res = await fetch(api);
+      const { data: resData } = await res.json();
+      data = resData;
+
+      if (!resData || !resData.proposal) {
+        retryCount++;
+        await sleep(2000);
+      }
+    }
+
+    if (!data) {
+      throw new Error("Error fetching from", api);
+    }
 
     const {
       createTxId,

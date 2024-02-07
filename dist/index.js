@@ -61024,14 +61024,19 @@ let sleep = (__nccwpck_require__(3837).promisify)(setTimeout);
     const api = `${EXPLORER_URL}/api/proposal/proposalInfo?proposalId=${PROPOSAL_ID}`;
 
     let data,
+      proposalStatus = "pending",
       retryCount = 0;
 
-    while (!data && retryCount < 20) {
+    while (!data && proposalStatus === "pending" && retryCount < 20) {
       const res = await fetch(api);
       const {
         data: { proposal },
       } = await res.json();
       data = proposal;
+
+      if (!!proposal.status) {
+        proposalStatus = proposal.status;
+      }
 
       if (!data) {
         retryCount++;

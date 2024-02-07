@@ -61028,10 +61028,12 @@ let sleep = (__nccwpck_require__(3837).promisify)(setTimeout);
 
     while (!data && retryCount < 10) {
       const res = await fetch(api);
-      const { data: resData } = await res.json();
-      data = resData;
+      const {
+        data: { proposal },
+      } = await res.json();
+      data = proposal;
 
-      if (!resData || !resData.proposal) {
+      if (!data) {
         retryCount++;
         await sleep(2000);
       }
@@ -61048,7 +61050,7 @@ let sleep = (__nccwpck_require__(3837).promisify)(setTimeout);
       proposer,
       releasedTxId,
       status,
-    } = data.proposal;
+    } = data;
 
     core.setOutput("create-tx-id", createTxId);
     core.setOutput("is-contract-deployed", isContractDeployed);

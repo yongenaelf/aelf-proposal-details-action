@@ -24,7 +24,7 @@ let sleep = require("util").promisify(setTimeout);
       } = await res.json();
       data = proposal;
 
-      if (!!proposal.status) {
+      if (!!proposal?.status) {
         proposalStatus = proposal.status;
       }
 

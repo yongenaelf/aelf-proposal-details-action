@@ -61034,7 +61034,7 @@ let sleep = (__nccwpck_require__(3837).promisify)(setTimeout);
       } = await res.json();
       data = proposal;
 
-      if (!!proposal.status) {
+      if (!!proposal?.status) {
         proposalStatus = proposal.status;
       }
 

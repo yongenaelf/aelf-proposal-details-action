@@ -61026,7 +61026,7 @@ let sleep = (__nccwpck_require__(3837).promisify)(setTimeout);
     let data,
       retryCount = 0;
 
-    while (!data && retryCount < 10) {
+    while (!data && retryCount < 20) {
       const res = await fetch(api);
       const {
         data: { proposal },
@@ -61040,7 +61040,7 @@ let sleep = (__nccwpck_require__(3837).promisify)(setTimeout);
     }
 
     if (!data) {
-      throw new Error("Error fetching from", api);
+      throw new Error("Error fetching from" + api);
     }
 
     const {

@@ -6,7 +6,8 @@
   "private": true,
   "scripts": {
     "build": "ncc build index.js --license licenses.txt",
-    "dev": "node --env-file=.env.development --watch index.js"
+    "dev": "node --env-file=.env.development --watch index.js",
+    "test": "vitest"
   },
   "keywords": [],
   "author": "",
@@ -19,5 +20,8 @@
     "branches": [
       "main"
     ]
+  },
+  "devDependencies": {
+    "vitest": "^1.6.0"
   }
 }

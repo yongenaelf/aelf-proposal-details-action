@@ -19,7 +19,16 @@ async function deserializeLogs(aelf, logs = []) {
     if (NonIndexed) {
       serializedData.push(NonIndexed);
     }
-    const dataType = proto.lookupType(dataTypeName);
+
+    let dataType;
+    try {
+      dataType = proto.lookupType(dataTypeName);
+    } catch (err) {
+      return {
+        message: "This log is not supported.",
+      };
+    }
+
     let deserializeLogResult = serializedData.reduce((acc, v) => {
       let deserialize = dataType.decode(Buffer.from(v, "base64"));
       deserialize = dataType.toObject(deserialize, {
